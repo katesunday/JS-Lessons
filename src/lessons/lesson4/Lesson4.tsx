@@ -13,44 +13,48 @@ import './lesson_4';
 // описаного выше объекта: свойство promise получает новый созданный промис,
 // свойства resolve и reject получают ссылки на соответствующие функции
 // resolve и reject. Следующие два обработчика запускают методы resolve и reject.
-const handlePromise = {
-    promise:null,
-    resolve:null,
-    reject:null,
-    onSuccess(paramName:string){
-        // @ts-ignore
-        handlePromise.resolve()
-        console.log( `Promise is resolved with data: ${paramName}`)
-    },
-    onError(paramName:string){
-        // @ts-ignore
-        handlePromise.reject()
-        console.log( `Promise is rejected with error: ${paramName}`)
+type handlePromiseType = {
+    promise: null | Promise<any>,
+    resolve: null | Function,
+    reject: null | Function,
+    onSuccess: (paramName: string) => void
+    onError: (paramName: string) => void
+}
+const handlePromise: handlePromiseType = {
+    promise: null ,
+    resolve: null ,
+    reject: null ,
+    onSuccess(paramName: string) {
+        console.log(`Promise is resolved with data: ${paramName}`)
+    } ,
+    onError(paramName: string) {
+        console.log(`Promise is rejected with error: ${paramName}`)
     }
 }
+const createPromise = () => {
+    handlePromise.promise = new Promise((resolve , reject) => {
+        handlePromise.resolve = resolve
+        handlePromise.reject = reject
+    })
+    handlePromise.promise
+        .then(handlePromise.onSuccess)
+        .catch(handlePromise.onError)
+}
+const resolvePromise = () => {
+    handlePromise.resolve && handlePromise.resolve('Success')
+}
+const rejectPromise = () => {
+    handlePromise.reject && handlePromise.reject('Error')
+}
+//@ts-ignore
+window.testObj = handlePromise
 const Lesson4 = () => {
-    const createPromise = () => {
-        console.log(handlePromise.promise)
-        const prom = new Promise((resolve, reject)=>{
-            // @ts-ignore
-            handlePromise.resolve = resolve
-            // @ts-ignore
-            handlePromise.reject = reject
-        })
-            .then(res=>{
-                // @ts-ignore
-                handlePromise.promise = prom
-            })
-            .catch(e=>{
-                console.log('e',e)
-            })
 
-    }
     return (
         <div>
             <button id='btn-create-promise' onClick={createPromise}>Create Promise</button>
-            <button id='btn-resolve-promise' onClick={()=>handlePromise.onSuccess('tratata')}>Resolve Promise</button>
-            <button id='btn-reject-promise' onClick={()=>handlePromise.onError('rejected')}>Reject Promise</button>
+            <button id='btn-resolve-promise' onClick={resolvePromise}>Resolve Promise</button>
+            <button id='btn-reject-promise' onClick={rejectPromise}>Reject Promise</button>
         </div>
     );
 }
