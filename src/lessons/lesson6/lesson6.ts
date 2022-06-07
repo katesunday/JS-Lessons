@@ -11,6 +11,54 @@ console.log('Lesson 6');
 // Создайте структуру с именем student, содержащую поля: имя и фамилия, номер группы, успеваемость (массив из пяти элементов).
 // Создать массив из десяти элементов такого типа, упорядочить записи по возрастанию среднего балла.
 // Добавить возможность вывода фамилий и номеров групп студентов, имеющих оценки, равные только 4 или 5.
+console.log('les 6 task 01')
+
+class Student {
+
+    constructor(public name: string , public surname: string ,
+                public groupNo: number , public AP: number[],
+                public averageScore:number) {
+    }
+
+    getGoodStudent() {
+       if(this.AP.every((el) => el >= 4)){
+           return ({name:this.name,surname:this.surname,groupNo:this.groupNo})
+       }
+    }
+    average(){
+
+      return  this.averageScore =  this.AP.reduce((a,b)=>(a+b))/this.AP.length
+    }
+}
+
+const studentGroup = [
+    new Student('Maria' , 'Ivanova' , 1 , [5 , 5 , 5 , 4 , 5],0) ,
+    new Student('Igor' , 'Igorev' , 1 , [5 , 5 , 4 , 4 , 5],0) ,
+    new Student('Olga' , 'Olgova' , 1 , [4 , 4 , 4 , 4 , 5],0) ,
+    new Student('Denis' , 'Denisov' , 1 , [5 , 5 , 5 , 5 , 5],0) ,
+    new Student('Ivan' , 'Ivanov' , 1 , [2 , 3 , 4 , 5 , 2],0) ,
+    new Student('Oleg' , 'Olegov' , 1 , [3 , 2 , 5 , 4 , 5],0) ,
+    new Student('Sasha' , 'Sashev' , 1 , [1 , 2 , 5 , 4 , 5],0) ,
+    new Student('Ira' , 'Irova' , 1 , [3 , 4 , 3 , 4 , 4],0) ,
+    new Student('Daria' , 'Dareva' , 1 , [5 , 2 , 3 , 4 , 5],0) ,
+    new Student('Alex' , 'Alekseev' , 1 , [5 , 3 , 5 , 4 , 5],0) ,
+
+]
+
+let listOfGoodStudents:{name:string,surname:string,groupNo:number}[] | any=[];
+studentGroup.map(function (value, index, array){
+    array[index].getGoodStudent() && listOfGoodStudents.push(array[index].getGoodStudent())
+})
+console.log(listOfGoodStudents)
+
+
+// @ts-ignore
+// let sortedStudents = studentGroup.sort((a, b)=>{
+//    a.average()>b.average()? 1 : -1
+// })
+// console.log(sortedStudents)
+
+
 
 // Task 02
 // Создать класс с двумя переменными. Добавить конструктор с входными параметрами и инициализирующий члены класса по умолчанию.
